@@ -1,0 +1,46 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net6.0</TargetFramework>
+    <RootNamespace>libzbar_cil.Test</RootNamespace>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <Platforms>AnyCPU;x64;x86</Platforms>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\libzbar-cil\libzbar-cil.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="testimage.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+	
+	<PropertyGroup>
+		<ZbarExternalNativeDlls>$(MSBuildThisFileDirectory)\runtimes</ZbarExternalNativeDlls>
+	</PropertyGroup>
+	<ItemGroup Condition="$(Platform) == 'x86'">
+		<Content Include="$(ZbarExternalNativeDlls)\win-x86\native\libzbar.dll">
+			<Link>libzbar.dll</Link>
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Include="$(ZbarExternalNativeDlls)\win-x86\native\libiconv-2.dll">
+			<Link>libiconv-2.dll</Link>
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+	</ItemGroup>
+	<ItemGroup Condition="$(Platform) == 'x64'">
+		<Content Include="$(ZbarExternalNativeDlls)\win-x64\native\libzbar.dll">
+			<Link>libzbar.dll</Link>
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Include="$(ZbarExternalNativeDlls)\win-x64\native\libiconv.dll">
+			<Link>libiconv.dll</Link>
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+	</ItemGroup>
+
+</Project>

@@ -1,57 +1,14 @@
-<?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
+<Project Sdk="Microsoft.NET.Sdk">
+
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.21022</ProductVersion>
-    <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{58D63AA2-59A3-4E02-B833-819727FA8CEE}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <RootNamespace>ZBar</RootNamespace>
-    <Description>C# bindings for libzbar.</Description>
-    <AssemblyName>libzbar-cil</AssemblyName>
-    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <ConsolePause>false</ConsolePause>
-    <OutputType>Library</OutputType>
-    <RootNamespace>ZBar</RootNamespace>
-    <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
+    <TargetFrameworks>netstandard2.0;netframework472;net6.0;net7.0</TargetFrameworks>
+    <RootNamespace>Zbar</RootNamespace>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <GenerateDocumentation>true</GenerateDocumentation>
+    <Platforms>AnyCPU;x64;x86</Platforms>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <ConsolePause>false</ConsolePause>
-    <OutputType>Library</OutputType>
-    <DebugSymbols>true</DebugSymbols>
-    <RootNamespace>ZBar</RootNamespace>
-    <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-  </PropertyGroup>
+
   <ItemGroup>
-    <Reference Include="System" />
-    <Reference Include="System.Drawing" />
+    <PackageReference Include="System.Drawing.Common" Version="7.0.0" />
   </ItemGroup>
-  <ItemGroup>
-    <Compile Include="AssemblyInfo.cs" />
-    <Compile Include="Image.cs" />
-    <Compile Include="ImageScanner.cs" />
-    <Compile Include="Symbol.cs" />
-    <Compile Include="Video.cs" />
-    <Compile Include="ZBarException.cs" />
-    <Compile Include="ZBar.cs" />
-  </ItemGroup>
-  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+
 </Project>
