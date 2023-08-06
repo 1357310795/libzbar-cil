@@ -187,11 +187,11 @@ namespace ZBar
 		#region Extern C functions
 		
 		/// <summary> constructor. </summary>
-		[DllImport("libzbar")]
+		[DllImport("libzbar", CallingConvention = CallingConvention.Cdecl)]
 		private static extern IntPtr zbar_video_create();
 		
 		/// <summary> destructor. </summary>
-		[DllImport("libzbar")]
+		[DllImport("libzbar", CallingConvention = CallingConvention.Cdecl)]
 		private static extern void zbar_video_destroy(IntPtr video);
 		
 		/// <summary>
@@ -201,7 +201,7 @@ namespace ZBar
 		///  DirectShow DevicePath property in windows).
 		/// </summary>
 		/// <returns> 0 if successful or -1 if an error occurs</returns>
-		[DllImport("libzbar")]
+		[DllImport("libzbar", CallingConvention = CallingConvention.Cdecl)]
 		private static extern int zbar_video_open(IntPtr video, string device);
 		
 		/// <summary>
@@ -211,7 +211,7 @@ namespace ZBar
 		/// </summary>
 		/// <returns> the file descriptor or -1 if the video device is not open
 		/// or the driver only supports v4l1</returns>
-		[DllImport("libzbar")]
+		[DllImport("libzbar", CallingConvention = CallingConvention.Cdecl)]
 		private static extern int zbar_video_get_fd(IntPtr video);
 		
 		/// <summary>
@@ -220,13 +220,13 @@ namespace ZBar
 		/// </summary>
 		/// <returns> 0 if successful or -1 if the video device is already
 		/// initialized</returns>
-		[DllImport("libzbar")]
+		[DllImport("libzbar", CallingConvention = CallingConvention.Cdecl)]
 		private static extern int zbar_video_request_size(IntPtr video, uint width, uint height);
 		
 		/// <summary>
 		/// request a preferred driver interface version for debug/testing.
 		/// </summary>
-		[DllImport("libzbar")]
+		[DllImport("libzbar", CallingConvention = CallingConvention.Cdecl)]
 		private static extern int zbar_video_request_interface(IntPtr video, int version);
 		
 		/// <summary>
@@ -242,21 +242,21 @@ namespace ZBar
 		/// @endverbatim
 		/// must be called before zbar_video_open()
         /// </remarks>
-		[DllImport("libzbar")]
+		[DllImport("libzbar", CallingConvention = CallingConvention.Cdecl)]
 		private static extern int zbar_video_request_iomode(IntPtr video, int iomode);
 		
 		/// <summary>
 		/// retrieve current output image width.
 		/// </summary>
 		/// <returns>the width or 0 if the video device is not open</returns>
-		[DllImport("libzbar")]
+		[DllImport("libzbar", CallingConvention = CallingConvention.Cdecl)]
 		private static extern int zbar_video_get_width(IntPtr video);
 		
 		/// <summary>
 		/// retrieve current output image height.
 		/// </summary>
 		/// <returns>the height or 0 if the video device is not open</returns>
-		[DllImport("libzbar")]
+		[DllImport("libzbar", CallingConvention = CallingConvention.Cdecl)]
 		private static extern int zbar_video_get_height(IntPtr video);
 		
 		/// <summary>
@@ -264,7 +264,7 @@ namespace ZBar
 		/// use zbar_negotiate_format() to automatically select and initialize
 		/// the best available format
 		/// </summary>
-		[DllImport("libzbar")]
+		[DllImport("libzbar", CallingConvention = CallingConvention.Cdecl)]
 		private static extern int zbar_video_init(IntPtr video, uint format);
 		
 		/// <summary>
@@ -272,14 +272,14 @@ namespace ZBar
 		/// all buffered images are retired when capture is disabled.
 		/// </summary>
 		/// <returns> 0 if successful or -1 if an error occurs</returns>
-		[DllImport("libzbar")]
+		[DllImport("libzbar", CallingConvention = CallingConvention.Cdecl)]
 		private static extern int zbar_video_enable(IntPtr video, int enable);
 		
 		/// <summary>
 		/// retrieve next captured image.  blocks until an image is available.
 		/// </summary>
 		/// <returns> NULL if video is not enabled or an error occurs</returns>
-		[DllImport("libzbar")]
+		[DllImport("libzbar", CallingConvention = CallingConvention.Cdecl)]
 		private static extern IntPtr zbar_video_next_image(IntPtr video);
 		
 		#endregion

@@ -27,6 +27,8 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
+using System.Diagnostics;
+using System.Runtime.CompilerServices;
 
 namespace ZBar
 {
@@ -324,7 +326,7 @@ namespace ZBar
 		/// this image should be destroyed (using zbar_image_destroy()) as
 		/// soon as the application is finished with it
 		/// </returns>
-		[DllImport("libzbar")]
+		[DllImport("libzbar", CallingConvention = CallingConvention.Cdecl)]
 		private static extern IntPtr zbar_image_create();
 		
 		/// <summary>image destructor.  all images created by or returned to the
@@ -337,7 +339,7 @@ namespace ZBar
 		/// is still using them.  if necessary, use the cleanup handler hook
 		/// to keep track of image data buffers
         /// </remarks>
-		[DllImport("libzbar")]
+		[DllImport("libzbar", CallingConvention = CallingConvention.Cdecl)]
 		private static extern void zbar_image_destroy(IntPtr image);
 		
 		/// <summary>image reference count manipulation.
@@ -346,7 +348,7 @@ namespace ZBar
 		/// refer to the image any longer once the count is decremented.
 		/// zbar_image_ref(image, -1) is the same as zbar_image_destroy(image)
 		/// </summary>
-		[DllImport("libzbar")]
+		[DllImport("libzbar", CallingConvention = CallingConvention.Cdecl)]
 		private static extern void zbar_image_ref(IntPtr image, int refs);
 		
 		/// <summary>image format conversion.  refer to the documentation for supported
@@ -359,7 +361,7 @@ namespace ZBar
 		/// <remarks> the converted image size may be rounded (up) due to format
 		/// constraints
         /// </remarks>
-		[DllImport("libzbar")]
+		[DllImport("libzbar", CallingConvention = CallingConvention.Cdecl)]
 		private static extern IntPtr zbar_image_convert(IntPtr image, uint format);
 		
 		/// <summary>image format conversion with crop/pad.
@@ -372,41 +374,41 @@ namespace ZBar
 		/// image converted to the requested format and size.
 		/// </returns>
         /// <remarks>the image is not scaled</remarks>
-		[DllImport("libzbar")]
+		[DllImport("libzbar", CallingConvention = CallingConvention.Cdecl)]
 		private static extern IntPtr zbar_image_convert_resize(IntPtr image, uint format, uint width, uint height);
 		
 		/// <summary>retrieve the image format.
 		/// </summary>
 		/// <returns> the fourcc describing the format of the image sample data</returns>
-		[DllImport("libzbar")]
+		[DllImport("libzbar", CallingConvention = CallingConvention.Cdecl)]
 		private static extern uint zbar_image_get_format(IntPtr image);
 		
 		/// <summary>retrieve a "sequence" (page/frame) number associated with this image.
 		/// </summary>
-		[DllImport("libzbar")]
+		[DllImport("libzbar", CallingConvention = CallingConvention.Cdecl)]
 		private static extern uint zbar_image_get_sequence(IntPtr image);
 		
 		/// <summary>retrieve the width of the image.
 		/// </summary>
 		/// <returns> the width in sample columns</returns>
-		[DllImport("libzbar")]
+		[DllImport("libzbar", CallingConvention = CallingConvention.Cdecl)]
 		private static extern uint zbar_image_get_width(IntPtr image);
 		
 		/// <summary>retrieve the height of the image.
 		/// </summary>
 		/// <returns> the height in sample rows</returns>
-		[DllImport("libzbar")]
+		[DllImport("libzbar", CallingConvention = CallingConvention.Cdecl)]
 		private static extern uint zbar_image_get_height(IntPtr image);
 		
 		/// <summary>return the image sample data.  the returned data buffer is only
 		/// valid until zbar_image_destroy() is called
 		/// </summary>
-		[DllImport("libzbar")]
+		[DllImport("libzbar", CallingConvention = CallingConvention.Cdecl)]
 		private static extern IntPtr zbar_image_get_data(IntPtr image);
 		
 		/// <summary>return the size of image data.
 		/// </summary>
-		[DllImport("libzbar")]
+		[DllImport("libzbar", CallingConvention = CallingConvention.Cdecl)]
 		private static extern uint zbar_image_get_data_length(IntPtr img);
 		
 		/// <summary>image_scanner decode result iterator.
@@ -414,7 +416,7 @@ namespace ZBar
 		/// <returns> the first decoded symbol result for an image
 		/// or NULL if no results are available
         /// </returns>
-		[DllImport("libzbar")]
+		[DllImport("libzbar", CallingConvention = CallingConvention.Cdecl)]
 		private static extern IntPtr zbar_image_first_symbol(IntPtr image);
 		
 		/// <summary>specify the fourcc image format code for image sample data.
@@ -423,47 +425,48 @@ namespace ZBar
 		/// <remarks> this does not convert the data!
 		/// (see zbar_image_convert() for that)
         /// </remarks>
-		[DllImport("libzbar")]
+		[DllImport("libzbar", CallingConvention = CallingConvention.Cdecl)]
 		private static extern void zbar_image_set_format(IntPtr image, uint format);
 		
 		/// <summary>associate a "sequence" (page/frame) number with this image.
 		/// </summary>
-		[DllImport("libzbar")]
+		[DllImport("libzbar", CallingConvention = CallingConvention.Cdecl)]
 		private static extern void zbar_image_set_sequence(IntPtr image, uint sequence_num);
 		
 		/// <summary>specify the pixel size of the image.
 		/// </summary>
 		/// <remarks>this does not affect the data!</remarks>
-		[DllImport("libzbar")]
+		[DllImport("libzbar", CallingConvention = CallingConvention.Cdecl)]
 		private static extern void zbar_image_set_size(IntPtr image, uint width, uint height);
-		
-		/// <summary>
-		/// Cleanup handler callback for image data.
-		/// </summary>
-		private delegate void zbar_image_cleanup_handler(IntPtr image);
+
+        /// <summary>
+        /// Cleanup handler callback for image data.
+        /// </summary>
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        private delegate void zbar_image_cleanup_handler(IntPtr image);
 				
 		/// <summary>specify image sample data.  when image data is no longer needed by
 		/// the library the specific data cleanup handler will be called
 		/// (unless NULL)
 		/// </summary>
 		/// <remarks>application image data will not be modified by the library</remarks>
-		[DllImport("libzbar")]
+		[DllImport("libzbar", CallingConvention = CallingConvention.Cdecl)]
 		private static extern void zbar_image_set_data(IntPtr image, IntPtr data, uint data_byte_length, zbar_image_cleanup_handler cleanup_handler);
 		
 		/// <summary>built-in cleanup handler.
 		/// passes the image data buffer to free()
 		/// </summary>
-		[DllImport("libzbar")]
+		[DllImport("libzbar", CallingConvention = CallingConvention.Cdecl)]
 		private static extern void zbar_image_free_data(IntPtr image);
 		
 		/// <summary>associate user specified data value with an image.
 		/// </summary>
-		[DllImport("libzbar")]
+		[DllImport("libzbar", CallingConvention = CallingConvention.Cdecl)]
 		private static extern void zbar_image_set_userdata(IntPtr image, IntPtr userdata);
 		
 		/// <summary>return user specified data value associated with the image.
 		/// </summary>
-		[DllImport("libzbar")]
+		[DllImport("libzbar", CallingConvention = CallingConvention.Cdecl)]
 		private static extern IntPtr zbar_image_get_userdata(IntPtr image);
 		#endregion
 	}
