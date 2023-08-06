@@ -28,7 +28,14 @@ namespace libzbar_cil.Test
                 if (symbols != null && symbols.Count > 0)
                 {
                     foreach(var symbol in symbols)
-                        Console.WriteLine($"{symbol.Data}");
+                    {
+                        Console.WriteLine($"Data: {symbol.Data}");
+                        Console.WriteLine($"Quality: {symbol.Quality}");
+                        Console.WriteLine($"Type: {symbol.Type}");
+                        Console.Write($"Location: ");
+                        PrintPointsCStyle(symbol.Location);
+                    }
+                        
                 }
                 else
                 {
@@ -71,6 +78,16 @@ namespace libzbar_cil.Test
             g.Dispose();
             original.Dispose();
             return newBitmap;
+        }
+
+        public static void PrintPointsCStyle(List<Point> points)
+        {
+            Console.WriteLine("{");
+            foreach (Point point in points)
+            {
+                Console.WriteLine($" {{ {point.X}, {point.Y} }},");
+            }
+            Console.WriteLine("}");
         }
     }
 }
